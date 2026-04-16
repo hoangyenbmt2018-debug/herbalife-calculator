@@ -1,10 +1,12 @@
-const CACHE_NAME = 'herbalife-calc-v1';
+const CACHE_NAME = 'herbalife-calc-v2';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './app.js',
-  './manifest.json'
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 // Install Event
