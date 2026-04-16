@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Herbalife Nutrition Calculator – Tính Toán Dinh Dưỡng Cá Nhân</title>
+  <meta name="description" content="Công cụ tính toán dinh dưỡng cá nhân theo tiêu chuẩn WHO, gợi ý sản phẩm Herbalife và thực đơn 3 lựa chọn phù hợp với từng người." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="logo-badge">🌿 Herbalife × WHO Standards</div>
+      <h1>Tính Toán Dinh Dưỡng Cá Nhân</h1>
+      <p>Đánh giá sức khỏe theo tiêu chuẩn WHO · Kế hoạch dinh dưỡng cá nhân hóa · Gợi ý Herbalife phù hợp</p>
+      <!-- Step indicator -->
+      <div class="steps-indicator">
+        <div class="step active" id="step-dot-1">
+          <div class="step-dot">1</div>
+          <div class="step-label">Thông số</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step-dot-2">
+          <div class="step-dot">2</div>
+          <div class="step-label">Đánh giá WHO</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="step-dot-3">
+          <div class="step-dot">3</div>
+          <div class="step-label">Kế hoạch</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ═══ STEP 1: INPUT FORM ═══ -->
+    <section class="card" id="section-step1">
+      <div class="card-header">
+        <span class="card-step-badge">Bước 1</span>
+        <h2>📝 Thông Số Cơ Thể</h2>
+      </div>
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Giới tính</label>
+          <div class="gender-toggle">
+            <button class="gender-btn active" id="btn-male" onclick="selectGender('male')">
+              <span class="gender-icon">♂</span> Nam
+            </button>
+            <button class="gender-btn" id="btn-female" onclick="selectGender('female')">
+              <span class="gender-icon">♀</span> Nữ
+            </button>
+          </div>
+          <input type="hidden" id="gender" value="male" />
+        </div>
+
+        <div class="form-group">
+          <label for="age">Tuổi</label>
+          <div class="input-wrap">
+            <input type="number" id="age" placeholder="25" min="10" max="100" value="25" />
+            <span class="unit">tuổi</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="height">Chiều cao</label>
+          <div class="input-wrap">
+            <input type="number" id="height" placeholder="165" min="100" max="250" value="165" />
+            <span class="unit">cm</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="weight">Cân nặng hiện tại</label>
+          <div class="input-wrap">
+            <input type="number" id="weight" placeholder="60" min="20" max="300" value="60" />
+            <span class="unit">kg</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="waist">Vòng eo (tùy chọn)</label>
+          <div class="input-wrap">
+            <input type="number" id="waist" placeholder="75" min="40" max="200" />
+            <span class="unit">cm</span>
+          </div>
+          <div class="field-note">Giúp ước tính mỡ nội tạng chính xác hơn</div>
+        </div>
+
+        <div class="form-group">
+          <label for="hip">Vòng hông (tùy chọn)</label>
+          <div class="input-wrap">
+            <input type="number" id="hip" placeholder="90" min="40" max="200" />
+            <span class="unit">cm</span>
+          </div>
+          <div class="field-note">Dùng tính tỉ lệ eo–hông (WHR)</div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="activity">Mức độ vận động hàng ngày</label>
+          <select id="activity">
+            <option value="1.2">🛋️ Ít vận động – ngồi nhiều, không tập thể dục</option>
+            <option value="1.375" selected>🚶 Nhẹ – tập 1–3 buổi/tuần, đi bộ thường ngày</option>
+            <option value="1.55">🏃 Vừa phải – tập 3–5 buổi/tuần</option>
+            <option value="1.725">💪 Nhiều – tập 6–7 buổi/tuần hoặc lao động thể chất</option>
+            <option value="1.9">🔥 Rất nhiều – vận động viên, tập 2 lần/ngày</option>
+          </select>
+        </div>
+
+      </div>
+      <button class="cta-btn" onclick="runAssessment()">
+        🔬 Phân Tích Sức Khỏe WHO
+      </button>
+    </section>
+
+    <!-- ═══ STEP 2: WHO ASSESSMENT ═══ -->
+    <section class="card hidden" id="section-step2">
+      <div class="card-header">
+        <span class="card-step-badge">Bước 2</span>
+        <h2>🏥 Đánh Giá Sức Khỏe Theo WHO</h2>
+      </div>
+
+      <!-- Body composition grid -->
+      <div class="composition-grid" id="composition-grid"></div>
+
+      <!-- WHO verdict banner -->
+      <div class="who-verdict" id="who-verdict"></div>
+
+      <!-- Ideal targets -->
+      <div class="ideal-targets" id="ideal-targets"></div>
+
+      <!-- Goal selection – appears after assessment -->
+      <div class="goal-section">
+        <h3 class="goal-section-title">🎯 Chọn Mục Tiêu Của Bạn</h3>
+        <p class="goal-section-sub">Dựa trên đánh giá trên, hãy chọn mục tiêu phù hợp:</p>
+        <div class="goal-grid" id="goal-grid">
+          <button class="goal-btn" id="goal-lose" onclick="selectGoal('lose')">
+            ⬇️<br/><strong>Giảm cân & Giảm mỡ</strong><br/><small>Giảm BMI, giảm % mỡ, săn chắc cơ thể</small>
+          </button>
+          <button class="goal-btn" id="goal-maintain" onclick="selectGoal('maintain')">
+            ⚖️<br/><strong>Duy trì & Cân bằng</strong><br/><small>Giữ cân nặng, tối ưu sức khỏe tổng thể</small>
+          </button>
+          <button class="goal-btn" id="goal-gain" onclick="selectGoal('gain')">
+            ⬆️<br/><strong>Tăng cân & Tăng cơ</strong><br/><small>Cải thiện khối lượng cơ, thêm cân lành mạnh</small>
+          </button>
+        </div>
+        <input type="hidden" id="goal" value="" />
+        <button class="cta-btn" id="btn-to-plan" onclick="generatePlan()" disabled style="margin-top:24px">
+          📋 Tạo Kế Hoạch Dinh Dưỡng →
+        </button>
+      </div>
+    </section>
+
+    <!-- ═══ STEP 3: FULL NUTRITION PLAN ═══ -->
+    <section class="hidden" id="section-step3">
+
+      <!-- Calorie Overview -->
+      <div class="card" id="calorie-card">
+        <div class="card-header">
+          <span class="card-step-badge">Bước 3</span>
+          <h2>🔥 Kế Hoạch Calorie & Macro</h2>
+        </div>
+        <div id="calorie-display"></div>
+        <div class="macro-grid" id="macro-grid"></div>
+        <div class="water-row" id="water-row"></div>
+      </div>
+
+      <!-- Meal Plan with 3 options -->
+      <div class="card" id="meal-card">
+        <h2>🍽️ Thực Đơn Mẫu – 3 Lựa Chọn Mỗi Bữa</h2>
+        <p class="subtitle">Chọn phong cách ăn uống phù hợp với bạn</p>
+        <div class="meal-style-toggle">
+          <button class="style-btn active" onclick="switchMealStyle('balanced')" id="style-balanced">⚖️ Cân bằng</button>
+          <button class="style-btn" onclick="switchMealStyle('asian')" id="style-asian">🍜 Châu Á truyền thống</button>
+          <button class="style-btn" onclick="switchMealStyle('strict')" id="style-strict">💪 Nghiêm ngặt / Clean</button>
+        </div>
+        <div id="meal-plan"></div>
+      </div>
+
+      <!-- Herbalife Products -->
+      <div class="card" id="herbalife-card">
+        <h2>🌿 Gợi Ý Sản Phẩm Herbalife</h2>
+        <p class="subtitle" id="herbalife-subtitle"></p>
+        <div class="products-grid" id="products-grid"></div>
+        <div class="herbalife-schedule" id="herbalife-schedule"></div>
+      </div>
+
+      <!-- Health Tips -->
+      <div class="card" id="tips-card">
+        <h2>💡 Lưu Ý & Lộ Trình Sức Khỏe</h2>
+        <div id="health-tips"></div>
+      </div>
+
+      <div class="action-row">
+        <button class="recalc-btn" onclick="backToStep1()">🔄 Tính Lại Từ Đầu</button>
+        <button class="recalc-btn secondary" onclick="backToStep2()">← Đổi Mục Tiêu</button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p>🌿 Herbalife Nutrition Calculator &nbsp;|&nbsp; Dựa trên tiêu chuẩn WHO &amp; nghiên cứu khoa học &nbsp;|&nbsp; Kết quả mang tính tham khảo</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
