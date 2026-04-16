@@ -4,7 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Herbalife Nutrition Calculator – Tính Toán Dinh Dưỡng Cá Nhân</title>
-  <meta name="description" content="Công cụ tính toán dinh dưỡng cá nhân theo tiêu chuẩn WHO, gợi ý sản phẩm Herbalife và thực đơn 3 lựa chọn phù hợp với từng người." />
+  <meta name="description" content="Công cụ tính toán dinh dưỡng cá nhân theo tiêu chuẩn WHO, gợi ý sản phẩm Herbalife phù hợp." />
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#22c55e" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Herbalife" />
+  <link rel="manifest" href="manifest.json" />
+  
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -211,5 +220,14 @@
   </footer>
 
   <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker Registered'))
+          .catch(err => console.log('Service Worker Failed', err));
+      });
+    }
+  </script>
 </body>
 </html>
